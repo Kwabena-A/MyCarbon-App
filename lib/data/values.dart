@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 
 import '../Widgets/conversation_widget.dart';
 import '../Widgets/speech_widget.dart';
-import '../Pages/chat_page.dart';
 
 ValueNotifier currentPage = ValueNotifier(0);
 ValueNotifier isScrolled = ValueNotifier(false);
@@ -12,3 +11,11 @@ ValueNotifier<List<SpeechInfo>> conversation = ValueNotifier([
 ]);
 
 ValueNotifier<int> currentQuestion = ValueNotifier(0);
+
+void resetSelected() {
+  singleSelected.value = "";
+  multiSelected.value = [];
+}
+
+ValueNotifier<String> singleSelected = ValueNotifier("");
+ValueNotifier<List<String>> multiSelected = ValueNotifier([]);

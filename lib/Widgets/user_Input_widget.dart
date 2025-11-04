@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carbon_footprint/data/icons.dart';
-import 'dart:math';
 
 import '../data/values.dart';
+import 'option_buble_widget.dart';
 
 enum UserInputOptions { NUMBER, MULTICHOICE, SINGLECHOICE }
 
@@ -23,120 +23,81 @@ class UserInput extends StatefulWidget {
 }
 
 class _UserInputState extends State<UserInput> {
-  void resetSelected() {
-    singleSelected.value = "";
-    multiSelected.value = [];
-  }
-
   @override
   Widget build(BuildContext context) {
     resetSelected();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Expanded(child: Container()),
 
-        GestureDetector(
-          child: Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: KConstants.KMainColor,
-            ),
-            child: SvgPicture.string(KIcons.confirm, color: Colors.white),
-          ),
-          onTap: () {
-            // Presses Confirm
-            conversation.value.add(
-              SpeechInfo(
-                SpeechSide.user,
-                (widget.inputType == UserInputOptions.SINGLECHOICE)
-                    ? singleSelected.value
-                    : multiSelected.value.toString(),
-              ),
-            );
-            conversation.notifyListeners();
-            saveResponse();
-            resetSelected();
-            ;
-          },
-        ),
-
-        Choice(options: widget.options, optionType: widget.inputType),
-        SizedBox(height: 130),
-      ],
-    );
-  }
-}
-
-ValueNotifier<String> singleSelected = ValueNotifier("");
-ValueNotifier<List<String>> multiSelected = ValueNotifier([]);
-
-// Option Bubbles
-class OptionBubble extends StatefulWidget {
-  const OptionBubble({super.key, required this.text, required this.optionType});
-
-  final String text;
-  final UserInputOptions optionType;
-
-  @override
-  State<OptionBubble> createState() => _OptionBubbleState();
-}
-
-class _OptionBubbleState extends State<OptionBubble>
-    with SingleTickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: (widget.optionType == UserInputOptions.SINGLECHOICE)
+      valueListenable: (widget.inputType == UserInputOptions.SINGLECHOICE)
           ? singleSelected
           : multiSelected,
       builder: (context, value, child) {
-        return GestureDetector(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-            decoration: BoxDecoration(
-              color: (value.toString().contains(widget.text))
-                  ? KConstants.KMainColor
-                  : Colors.white,
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Text(
-              widget.text,
-              style: GoogleFonts.getFont(
-                "Rubik",
-                fontSize: 15,
-                color: (value.toString().contains(widget.text))
-                    ? Colors.white
-                    : Colors.black,
+        bool isSelectedEmpty = value == "" || value == [];
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(child: Container()),
+
+            GestureDetector(
+              // Confirm Widget
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (isSelectedEmpty)
+                        ? KConstants.KDarkGrayColor
+                        : KConstants.KMainColor,
+                  ),
+                  child: (isSelectedEmpty)
+                      ? SvgPicture.string(KIcons.question)
+                      : SvgPicture.string(KIcons.confirm, color: Colors.white),
+                ),
               ),
+              onTap: () {
+                bool isSelectedEmpty =
+                    (widget.inputType == UserInputOptions.SINGLECHOICE)
+                    ? (value == "")
+                    : (value == []);
+                // Presses Confirm
+                if (!isSelectedEmpty) {
+                  conversation.value.add(
+                    SpeechInfo(
+                      SpeechSide.user,
+                      (widget.inputType == UserInputOptions.SINGLECHOICE)
+                          ? singleSelected.value
+                          : multiSelected.value.toString(),
+                    ),
+                  );
+                  conversation.notifyListeners();
+                  saveResponse();
+                  resetSelected();
+                } else {
+                  print("User not sure");
+                  conversation.value.add(
+                    SpeechInfo(SpeechSide.user, "I'm not sure"),
+                  );
+                  conversation.notifyListeners();
+
+                  value = "";
+                  conversation.notifyListeners();
+                  saveResponse();
+                  resetSelected();
+                }
+              },
             ),
-          ),
-          onTap: () {
-            if (widget.optionType == UserInputOptions.SINGLECHOICE) {
-              singleSelected.value = (singleSelected.value != widget.text)
-                  ? widget.text
-                  : "";
-            } else if (widget.optionType == UserInputOptions.MULTICHOICE) {
-              if (!multiSelected.value.contains(widget.text)) {
-                multiSelected.value.add(widget.text);
-              } else {
-                multiSelected.value.remove(widget.text);
-              }
-              multiSelected.notifyListeners();
-            }
-            print(" Tapped on ${widget.text} ");
-          },
+
+            Choice(options: widget.options, optionType: widget.inputType),
+            SizedBox(height: 130),
+          ],
         );
       },
     );
   }
 }
 
-String? currentlySelected;
-
-// Single Choice
 class Choice extends StatefulWidget {
   final List<String> options;
   final UserInputOptions optionType;
