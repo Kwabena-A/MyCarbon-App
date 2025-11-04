@@ -1,0 +1,46 @@
+import 'package:carbon_footprint/Pages/chat_page.dart';
+import 'package:carbon_footprint/Pages/home_page.dart';
+import 'package:carbon_footprint/Pages/statistics_page.dart';
+import 'package:carbon_footprint/Widgets/action_bar.dart';
+import 'package:carbon_footprint/Widgets/nav_bar.dart';
+import 'package:carbon_footprint/data/constants.dart';
+import 'package:carbon_footprint/data/values.dart';
+import 'package:flutter/material.dart';
+
+class WidgetTree extends StatefulWidget {
+  const WidgetTree({super.key});
+
+  @override
+  State<WidgetTree> createState() => _WidgetTreeState();
+}
+
+class _WidgetTreeState extends State<WidgetTree> {
+  List<Widget> pages = [HomePage(), ChatPage(), StatisticsPage()];
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: currentPage,
+      builder: (context, page, child) {
+        return Scaffold(
+          backgroundColor: KConstants.KMainGrayColor,
+          body: Stack(
+            children: [
+              pages.elementAt(page), // Page Cycle
+              ActionBar(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 50),
+                    child: NavBar(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
