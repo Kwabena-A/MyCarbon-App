@@ -16,9 +16,8 @@ class Question {
     this.widget = UserInput(inputType: questionType, options: options);
   }
 
-  UserInput prompt() {
+  void askQuestion() {
     conversation.value.add(SpeechInfo(SpeechSide.bot, question));
-    return this.widget;
   }
 
   void getResponse() {
@@ -28,6 +27,7 @@ class Question {
     if (response != [""]) {
       if (currentQuestion.value < questionList.length - 1) {
         currentQuestion.value++;
+        askCurrentQuestion();
       } else {
         for (Question question in questionList) {
           print(question.response);
@@ -48,13 +48,13 @@ List<Question> questionList = [
     "Prius",
     "Lenoir Car",
   ]),
-  Question("What do u cook with?", UserInputOptions.SINGLECHOICE, [
+  Question("What do u cook with?", UserInputOptions.MULTICHOICE, [
     "Stove",
     "Pan",
     "Grill",
     "Yk, the usual",
   ]),
-  Question("What Powers Your Home? ", UserInputOptions.SINGLECHOICE, [
+  Question("What Powers Your Home? ", UserInputOptions.MULTICHOICE, [
     "Oil",
     "Gas",
     "Solar/Renwable",
@@ -62,8 +62,16 @@ List<Question> questionList = [
   ]),
 ];
 
-void updateQuestion() {
+void initConversation() {
+  questionList.elementAt(0).askQuestion();
+}
+
+void saveResponse() {
   questionList.elementAt(currentQuestion.value).getResponse();
+}
+
+void askCurrentQuestion() {
+  questionList.elementAt(currentQuestion.value).askQuestion();
 }
 
 class ChatPage extends StatefulWidget {
@@ -82,7 +90,7 @@ class _ChatPageState extends State<ChatPage> {
         return Stack(
           children: [
             ConversationWidget(),
-            questionList.elementAt(value).prompt(),
+            questionList.elementAt(currentQuestion.value).widget,
           ],
         );
       },

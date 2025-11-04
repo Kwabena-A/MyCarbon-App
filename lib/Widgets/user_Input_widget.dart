@@ -47,6 +47,7 @@ class _UserInputState extends State<UserInput> {
             child: SvgPicture.string(KIcons.confirm, color: Colors.white),
           ),
           onTap: () {
+            // Presses Confirm
             conversation.value.add(
               SpeechInfo(
                 SpeechSide.user,
@@ -56,8 +57,9 @@ class _UserInputState extends State<UserInput> {
               ),
             );
             conversation.notifyListeners();
-            updateQuestion();
+            saveResponse();
             resetSelected();
+            ;
           },
         ),
 
@@ -122,6 +124,7 @@ class _OptionBubbleState extends State<OptionBubble>
               } else {
                 multiSelected.value.remove(widget.text);
               }
+              multiSelected.notifyListeners();
             }
             print(" Tapped on ${widget.text} ");
           },
