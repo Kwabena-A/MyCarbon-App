@@ -32,7 +32,7 @@ class _UserInputState extends State<UserInput> {
           ? singleSelected
           : multiSelected,
       builder: (context, value, child) {
-        bool isSelectedEmpty = value == "" || value == [];
+        bool isSelectedEmpty = value == "" || value.toString() == "[]";
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -57,10 +57,6 @@ class _UserInputState extends State<UserInput> {
                 ),
               ),
               onTap: () {
-                bool isSelectedEmpty =
-                    (widget.inputType == UserInputOptions.SINGLECHOICE)
-                    ? (value == "")
-                    : (value == []);
                 // Presses Confirm
                 if (!isSelectedEmpty) {
                   conversation.value.add(
@@ -72,20 +68,15 @@ class _UserInputState extends State<UserInput> {
                     ),
                   );
                   conversation.notifyListeners();
-                  saveResponse();
-                  resetSelected();
+                  Question.saveResponse();
                 } else {
-                  print("User not sure");
                   conversation.value.add(
                     SpeechInfo(SpeechSide.user, "I'm not sure"),
                   );
                   conversation.notifyListeners();
-
-                  value = "";
-                  conversation.notifyListeners();
-                  saveResponse();
-                  resetSelected();
+                  Question.saveResponse();
                 }
+                resetSelected();
               },
             ),
 

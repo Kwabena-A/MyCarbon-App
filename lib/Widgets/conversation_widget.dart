@@ -31,6 +31,7 @@ class _ConversationWidgetState extends State<ConversationWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                SizedBox(height: 110),
                 // Expanded(child: Container()),
                 ...List.generate(value.length, (index) {
                   return Container(
@@ -45,7 +46,7 @@ class _ConversationWidgetState extends State<ConversationWidget> {
                   );
                 }),
 
-                SizedBox(height: 250),
+                SizedBox(height: 300),
               ],
             ),
           ),

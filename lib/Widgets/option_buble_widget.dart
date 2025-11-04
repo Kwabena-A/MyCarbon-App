@@ -18,46 +18,81 @@ class OptionBubble extends StatefulWidget {
 
 class _OptionBubbleState extends State<OptionBubble>
     with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation _animation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 100),
+    );
+    _animation = ColorTween(
+      begin: Colors.white,
+      end: KConstants.KMainColor,
+    ).animate(_controller);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: (widget.optionType == UserInputOptions.SINGLECHOICE)
-          ? singleSelected
-          : multiSelected,
-      builder: (context, value, child) {
-        return GestureDetector(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-            decoration: BoxDecoration(
-              color: (value.toString().contains(widget.text))
-                  ? KConstants.KMainColor
-                  : Colors.white,
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Text(
-              widget.text,
-              style: GoogleFonts.getFont(
-                "Rubik",
-                fontSize: 15,
-                color: (value.toString().contains(widget.text))
-                    ? Colors.white
-                    : Colors.black,
-              ),
-            ),
-          ),
-          onTap: () {
-            if (widget.optionType == UserInputOptions.SINGLECHOICE) {
-              singleSelected.value = (singleSelected.value != widget.text)
-                  ? widget.text
-                  : "";
-            } else if (widget.optionType == UserInputOptions.MULTICHOICE) {
-              if (!multiSelected.value.contains(widget.text)) {
-                multiSelected.value.add(widget.text);
-              } else {
-                multiSelected.value.remove(widget.text);
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return ValueListenableBuilder(
+          valueListenable: (widget.optionType == UserInputOptions.SINGLECHOICE)
+              ? singleSelected
+              : multiSelected,
+          builder: (context, value, child) {
+            if (value.toString().contains(widget.text)) {
+              if (_controller.status != AnimationStatus.forward) {
+                _controller.forward();
               }
-              multiSelected.notifyListeners();
+            } else {
+              if (_controller.status != AnimationStatus.reverse) {
+                _controller.reverse();
+              }
             }
+            return GestureDetector(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                decoration: BoxDecoration(
+                  color: _animation.value,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Text(
+                  widget.text,
+                  style: GoogleFonts.getFont(
+                    "Rubik",
+                    fontSize: 15,
+                    color: (value.toString().contains(widget.text))
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                ),
+              ),
+              onTap: () {
+                if (widget.optionType == UserInputOptions.SINGLECHOICE) {
+                  singleSelected.value = (singleSelected.value != widget.text)
+                      ? widget.text
+                      : "";
+                } else if (widget.optionType == UserInputOptions.MULTICHOICE) {
+                  if (!multiSelected.value.contains(widget.text)) {
+                    multiSelected.value.add(widget.text);
+                  } else {
+                    multiSelected.value.remove(widget.text);
+                  }
+                  multiSelected.notifyListeners();
+                }
+              },
+            );
           },
         );
       },

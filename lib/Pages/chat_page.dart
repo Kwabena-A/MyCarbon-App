@@ -1,4 +1,5 @@
 import 'package:carbon_footprint/Widgets/conversation_widget.dart';
+import 'package:carbon_footprint/Widgets/option_buble_widget.dart';
 import 'package:carbon_footprint/Widgets/user_Input_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class Question {
 
   void askQuestion() {
     conversation.value.add(SpeechInfo(SpeechSide.bot, question));
+    conversation.notifyListeners;
   }
 
   void getResponse() {
@@ -35,43 +37,18 @@ class Question {
       }
     }
   }
-}
 
-List<Question> questionList = [
-  Question("Hows the whether?", UserInputOptions.SINGLECHOICE, [
-    "Good",
-    "Mid Fr",
-    "Bad",
-  ]),
-  Question("What car do u drive", UserInputOptions.SINGLECHOICE, [
-    "Toyota",
-    "Prius",
-    "Lenoir Car",
-  ]),
-  Question("What do u cook with?", UserInputOptions.MULTICHOICE, [
-    "Stove",
-    "Pan",
-    "Grill",
-    "Yk, the usual",
-  ]),
-  Question("What Powers Your Home? ", UserInputOptions.MULTICHOICE, [
-    "Oil",
-    "Gas",
-    "Solar/Renwable",
-    "ChatGPT",
-  ]),
-];
+  static void initConversation() {
+    questionList.elementAt(0).askQuestion();
+  }
 
-void initConversation() {
-  questionList.elementAt(0).askQuestion();
-}
+  static void saveResponse() {
+    questionList.elementAt(currentQuestion.value).getResponse();
+  }
 
-void saveResponse() {
-  questionList.elementAt(currentQuestion.value).getResponse();
-}
-
-void askCurrentQuestion() {
-  questionList.elementAt(currentQuestion.value).askQuestion();
+  static void askCurrentQuestion() {
+    questionList.elementAt(currentQuestion.value).askQuestion();
+  }
 }
 
 class ChatPage extends StatefulWidget {
