@@ -22,7 +22,30 @@ class UserInput extends StatefulWidget {
   State<UserInput> createState() => _UserInputState();
 }
 
-class _UserInputState extends State<UserInput> {
+class _UserInputState extends State<UserInput>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _confirmController;
+  late final Animation _confirmAnimation;
+
+  @override
+  void initState() {
+    _confirmController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 200),
+    );
+    _confirmAnimation = ColorTween(
+      begin: KConstants.KDarkGrayColor,
+      end: KConstants.KMainColor,
+    ).animate(_confirmController);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _confirmController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     resetSelected();
@@ -33,50 +56,67 @@ class _UserInputState extends State<UserInput> {
           : multiSelected,
       builder: (context, value, child) {
         bool isSelectedEmpty = value == "" || value.toString() == "[]";
+
+        if (!isSelectedEmpty) {
+          if (_confirmController.status != AnimationStatus.forward) {
+            _confirmController.forward();
+          }
+        } else {
+          if (_confirmController.status != AnimationStatus.reverse) {
+            _confirmController.reverse();
+          }
+        }
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Expanded(child: Container()),
 
-            GestureDetector(
-              // Confirm Widget
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: (isSelectedEmpty)
-                        ? KConstants.KDarkGrayColor
-                        : KConstants.KMainColor,
-                  ),
-                  child: (isSelectedEmpty)
-                      ? SvgPicture.string(KIcons.question)
-                      : SvgPicture.string(KIcons.confirm, color: Colors.white),
-                ),
-              ),
-              onTap: () {
-                // Presses Confirm
-                if (!isSelectedEmpty) {
-                  conversation.value.add(
-                    SpeechInfo(
-                      SpeechSide.user,
-                      (widget.inputType == UserInputOptions.SINGLECHOICE)
-                          ? singleSelected.value
-                          : multiSelected.value.toString(),
+            AnimatedBuilder(
+              animation: _confirmAnimation,
+              builder: (context, child) {
+                return GestureDetector(
+                  // Confirm Widget
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _confirmAnimation.value,
+                      ),
+                      child: (isSelectedEmpty)
+                          ? SvgPicture.string(KIcons.question)
+                          : SvgPicture.string(
+                              KIcons.confirm,
+                              color: Colors.white,
+                            ),
                     ),
-                  );
-                  conversation.notifyListeners();
-                  Question.saveResponse();
-                } else {
-                  conversation.value.add(
-                    SpeechInfo(SpeechSide.user, "I'm not sure"),
-                  );
-                  conversation.notifyListeners();
-                  Question.saveResponse();
-                }
-                resetSelected();
+                  ),
+                  onTap: () {
+                    // Presses Confirm
+                    if (!isSelectedEmpty) {
+                      conversation.value.add(
+                        SpeechInfo(
+                          SpeechSide.user,
+                          (widget.inputType == UserInputOptions.SINGLECHOICE)
+                              ? singleSelected.value
+                              : multiSelected.value.toString(),
+                        ),
+                      );
+                      conversation.notifyListeners();
+                      Question.saveResponse();
+                    } else {
+                      conversation.value.add(
+                        SpeechInfo(SpeechSide.user, "I'm not sure"),
+                      );
+                      conversation.notifyListeners();
+                      Question.saveResponse();
+                    }
+                    resetSelected();
+                  },
+                );
               },
             ),
 
