@@ -4,7 +4,6 @@ import 'package:carbon_footprint/Widgets/speech_widget.dart';
 import 'package:carbon_footprint/data/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:carbon_footprint/data/icons.dart';
 
 import '../data/values.dart';
@@ -142,29 +141,32 @@ class Choice extends StatefulWidget {
 class _ChoiceState extends State<Choice> {
   @override
   Widget build(BuildContext context) {
-    int optionCount = widget.options.length;
-    List<Row> rows = List.generate(
-      (optionCount >= 3) ? (optionCount ~/ 3) + 1 : 1,
-      (index) =>
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: []),
+    List<OptionBubble> optionBubbles = [];
+
+    for (String optionText in widget.options) {
+      OptionBubble optionWidget = OptionBubble(
+        text: optionText,
+        optionType: widget.optionType,
+      );
+      optionBubbles.add(optionWidget);
+    }
+    List<Padding> spacedBubbles = List.generate(optionBubbles.length, (index) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),
+        child: optionBubbles.elementAt(index),
+      );
+    });
+
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: Wrap(
+            alignment: WrapAlignment.spaceEvenly,
+            children: [...spacedBubbles],
+          ),
+        ),
+      ],
     );
-    for (int i = 0; i < widget.options.length; i++) {
-      rows
-          .elementAt((i ~/ 3))
-          .children
-          .add(
-            OptionBubble(
-              text: widget.options.elementAt(i),
-              optionType: widget.optionType,
-            ),
-          );
-    }
-
-    List<Widget> spacedRows = [];
-    for (Row row in rows) {
-      spacedRows.add(Padding(padding: EdgeInsets.only(bottom: 10), child: row));
-    }
-
-    return Column(children: [...spacedRows]);
   }
 }
