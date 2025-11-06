@@ -7,6 +7,7 @@ import 'package:carbon_footprint/data/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carbon_footprint/data/icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../data/values.dart';
 import 'option_buble_widget.dart';
@@ -38,6 +39,7 @@ class _UserInputState extends State<UserInput>
       begin: KConstants.KDarkGrayColor,
       end: KConstants.KMainColor,
     ).animate(_confirmController);
+
     super.initState();
   }
 
@@ -82,14 +84,18 @@ class _UserInputState extends State<UserInput>
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
+                        borderRadius: BorderRadius.circular(20),
                         color: _confirmAnimation.value,
                       ),
                       child: (isSelectedEmpty)
-                          ? SvgPicture.string(KIcons.question)
-                          : SvgPicture.string(
-                              KIcons.confirm,
-                              color: Colors.white,
+                          ? Text("Im not sure")
+                          : Text(
+                              "Submit",
+                              style: GoogleFonts.getFont(
+                                "Rubik",
+                                fontSize: 15,
+                                color: Colors.white,
+                              ),
                             ),
                     ),
                   ),

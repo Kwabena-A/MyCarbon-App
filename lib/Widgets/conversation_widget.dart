@@ -7,6 +7,7 @@ import '../data/values.dart';
 class SpeechInfo {
   final SpeechSide side;
   final String text;
+  static int totalQuestion = questionList.length;
 
   SpeechInfo(this.side, this.text);
 }
