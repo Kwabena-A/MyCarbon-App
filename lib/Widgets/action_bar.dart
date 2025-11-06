@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:carbon_footprint/data/constants.dart';
 import 'package:carbon_footprint/data/icons.dart';
 import 'package:carbon_footprint/data/values.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +26,7 @@ class _ActionBarState extends State<ActionBar>
       vsync: this,
     );
     _animation = ColorTween(
-      begin: Color(0xFFF8F7F7),
+      begin: KConstants.KMainGrayColor,
       end: Colors.white,
     ).animate(_controller);
 
@@ -45,12 +48,18 @@ class _ActionBarState extends State<ActionBar>
           animation: _controller,
           builder: (context, child) {
             if (isScrolledValue) {
-              _controller.forward();
+              if (_controller.status != AnimationStatus.forward) {
+                _controller.forward();
+              }
             } else {
-              _controller.reverse();
+              if (_controller.status != AnimationStatus.reverse) {
+                _controller.reverse();
+              }
             }
+
             return Container(
               color: _animation.value,
+
               child: Padding(
                 padding: EdgeInsets.only(top: 40, bottom: 20),
                 child: Row(

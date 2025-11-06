@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:carbon_footprint/Pages/chat_page.dart';
 import 'package:carbon_footprint/Widgets/conversation_widget.dart';
 import 'package:carbon_footprint/Widgets/speech_widget.dart';
@@ -47,8 +49,6 @@ class _UserInputState extends State<UserInput>
 
   @override
   Widget build(BuildContext context) {
-    resetSelected();
-
     return ValueListenableBuilder(
       valueListenable: (widget.inputType == UserInputOptions.SINGLECHOICE)
           ? singleSelected
@@ -120,7 +120,7 @@ class _UserInputState extends State<UserInput>
             ),
 
             Choice(options: widget.options, optionType: widget.inputType),
-            SizedBox(height: 130),
+            SizedBox(height: 125),
           ],
         );
       },

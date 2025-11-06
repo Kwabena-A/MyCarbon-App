@@ -28,7 +28,7 @@ class _OptionBubbleState extends State<OptionBubble>
       duration: Duration(milliseconds: 100),
     );
     _animation = ColorTween(
-      begin: Colors.white,
+      begin: Color(0xC6FFFFFF),
       end: KConstants.KMainColor,
     ).animate(_controller);
 
