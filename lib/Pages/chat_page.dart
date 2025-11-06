@@ -18,8 +18,14 @@ class Question {
   }
 
   void askQuestion() {
-    conversation.value.add(SpeechInfo(SpeechSide.bot, question));
-    conversation.notifyListeners;
+    conversation.value.add(
+      SpeechInfo(
+        side: SpeechSide.bot,
+        text: question,
+        questionIndex: questionList.indexOf(this),
+      ),
+    );
+    conversation.notifyListeners();
   }
 
   void getResponse() {

@@ -6,9 +6,9 @@ import 'package:carbon_footprint/Widgets/speech_widget.dart';
 import 'package:carbon_footprint/data/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:carbon_footprint/data/icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../data/icons.dart';
 import '../data/values.dart';
 import 'option_buble_widget.dart';
 
@@ -74,6 +74,7 @@ class _UserInputState extends State<UserInput>
           children: [
             Expanded(child: Container()),
 
+            // Submit/Idk Button
             AnimatedBuilder(
               animation: _confirmAnimation,
               builder: (context, child) {
@@ -84,18 +85,14 @@ class _UserInputState extends State<UserInput>
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(15),
                         color: _confirmAnimation.value,
                       ),
                       child: (isSelectedEmpty)
-                          ? Text("Im not sure")
+                          ? Text("I'm not sure")
                           : Text(
                               "Submit",
-                              style: GoogleFonts.getFont(
-                                "Rubik",
-                                fontSize: 15,
-                                color: Colors.white,
-                              ),
+                              style: TextStyle(color: Colors.white),
                             ),
                     ),
                   ),
@@ -104,8 +101,10 @@ class _UserInputState extends State<UserInput>
                     if (!isSelectedEmpty) {
                       conversation.value.add(
                         SpeechInfo(
-                          SpeechSide.user,
-                          (widget.inputType == UserInputOptions.SINGLECHOICE)
+                          side: SpeechSide.user,
+                          text:
+                              (widget.inputType ==
+                                  UserInputOptions.SINGLECHOICE)
                               ? singleSelected.value
                               : multiSelected.value.toString(),
                         ),
@@ -114,7 +113,7 @@ class _UserInputState extends State<UserInput>
                       Question.saveResponse();
                     } else {
                       conversation.value.add(
-                        SpeechInfo(SpeechSide.user, "I'm not sure"),
+                        SpeechInfo(side: SpeechSide.user, text: "I'm not sure"),
                       );
                       conversation.notifyListeners();
                       Question.saveResponse();

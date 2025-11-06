@@ -1,5 +1,4 @@
 import 'package:carbon_footprint/Widgets/speech_widget.dart';
-import 'package:carbon_footprint/Widgets/user_Input_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../data/values.dart';
@@ -8,8 +7,9 @@ class SpeechInfo {
   final SpeechSide side;
   final String text;
   static int totalQuestion = questionList.length;
+  final int? questionIndex;
 
-  SpeechInfo(this.side, this.text);
+  SpeechInfo({required this.side, required this.text, this.questionIndex});
 }
 
 class ConversationWidget extends StatefulWidget {
@@ -43,6 +43,7 @@ class _ConversationWidgetState extends State<ConversationWidget> {
                     child: SpeechWidget(
                       side: value.elementAt(index).side,
                       text: value.elementAt(index).text,
+                      questionIndex: value.elementAt(index).questionIndex,
                     ),
                   );
                 }),

@@ -9,7 +9,7 @@ ValueNotifier currentPage = ValueNotifier(0);
 ValueNotifier isScrolled = ValueNotifier(false);
 
 ValueNotifier<List<SpeechInfo>> conversation = ValueNotifier([
-  SpeechInfo(SpeechSide.bot, "Welcome!"),
+  SpeechInfo(side: SpeechSide.bot, text: "Welcome!"),
 ]);
 
 ValueNotifier<int> currentQuestion = ValueNotifier(0);
