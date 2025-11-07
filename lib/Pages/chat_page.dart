@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../Widgets/speech_widget.dart';
 import '../data/values.dart';
 
+// Contains all question info
+// Question.widget contains the UserInput widget, and is used in the Chat Page
 class Question {
   final String question;
   final UserInputOptions questionType;
@@ -27,6 +29,7 @@ class Question {
   }
 
   void askQuestion() {
+    // Ran in askCurrentQuestion() when its index matches the currentQuestion value notifier
     conversation.value.add(
       SpeechInfo(
         side: SpeechSide.bot,
@@ -38,30 +41,32 @@ class Question {
   }
 
   void getResponse() {
+    // Sets this.response to the current value in singleSelected or multiSelected
     response = (questionType == UserInputOptions.SINGLECHOICE)
         ? [singleSelected.value]
         : multiSelected.value;
-    if (response != [""]) {
-      if (currentQuestion.value < questionList.length - 1) {
-        currentQuestion.value++;
-        askCurrentQuestion();
-      } else {
-        for (Question question in questionList) {
-          print(question.response);
-        }
+    if (currentQuestion.value < questionList.length - 1) {
+      currentQuestion.value++;
+      askCurrentQuestion();
+    } else {
+      for (Question question in questionList) {
+        print(question.response);
       }
     }
   }
 
   static void initConversation() {
+    // Ran in main to say the first question
     questionList.elementAt(0).askQuestion();
   }
 
   static void saveResponse() {
+    // Ran when confirm button is pressed (on UserInput page)
     questionList.elementAt(currentQuestion.value).getResponse();
   }
 
   static void askCurrentQuestion() {
+    // Ran every time a new question is promteds
     questionList.elementAt(currentQuestion.value).askQuestion();
   }
 }

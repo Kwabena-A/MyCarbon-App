@@ -3,6 +3,7 @@ import 'package:carbon_footprint/data/values.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// Passed to identify which side a speech widget should be on
 enum SpeechSide { bot, user }
 
 class SpeechWidget extends StatelessWidget {
@@ -53,7 +54,7 @@ class SpeechWidget extends StatelessWidget {
           ),
         ),
 
-        // Question Counter
+        // Question Counter, if null nothing is passed
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
           alignment: Alignment.topLeft,

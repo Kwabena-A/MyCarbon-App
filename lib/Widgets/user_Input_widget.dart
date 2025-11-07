@@ -86,7 +86,6 @@ class _UserInputState extends State<UserInput>
               animation: _confirmAnimation,
               builder: (context, child) {
                 return GestureDetector(
-                  // Confirm Widget
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -95,6 +94,8 @@ class _UserInputState extends State<UserInput>
                         borderRadius: BorderRadius.circular(15),
                         color: _confirmAnimation.value,
                       ),
+
+                      // set text based on if selected is empty
                       child: (isSelectedEmpty)
                           ? Text("I'm not sure")
                           : Text(
@@ -103,9 +104,11 @@ class _UserInputState extends State<UserInput>
                             ),
                     ),
                   ),
+
                   onTap: () {
                     // Presses Confirm
                     if (!isSelectedEmpty) {
+                      // say user selection in chat
                       conversation.value.add(
                         SpeechInfo(
                           side: SpeechSide.user,
@@ -117,8 +120,11 @@ class _UserInputState extends State<UserInput>
                         ),
                       );
                       conversation.notifyListeners();
+
+                      // Saves selected choice in current question
                       Question.saveResponse();
                     } else {
+                      // User is not sure
                       conversation.value.add(
                         SpeechInfo(side: SpeechSide.user, text: "I'm not sure"),
                       );
@@ -131,6 +137,7 @@ class _UserInputState extends State<UserInput>
               },
             ),
 
+            // Based on questions user input options, a choiceWidget or NumberWheel widget is added
             (widget.inputType != UserInputOptions.NUMBER)
                 ? Choice(options: widget.options!, optionType: widget.inputType)
                 : NumberWheel(range: widget.range!),
@@ -142,9 +149,10 @@ class _UserInputState extends State<UserInput>
   }
 }
 
+// Used to create optionBubble for choice questions
 class Choice extends StatefulWidget {
-  final List<String> options;
-  final UserInputOptions optionType;
+  final List<String> options; // List of all options as strings
+  final UserInputOptions optionType; // Single choice or multichoice
 
   const Choice({super.key, required this.options, required this.optionType});
 
@@ -157,6 +165,7 @@ class _ChoiceState extends State<Choice> {
   Widget build(BuildContext context) {
     List<OptionBubble> optionBubbles = [];
 
+    // Create an optionBubble for each option
     for (String optionText in widget.options) {
       OptionBubble optionWidget = OptionBubble(
         text: optionText,
@@ -164,6 +173,8 @@ class _ChoiceState extends State<Choice> {
       );
       optionBubbles.add(optionWidget);
     }
+
+    // Wraps each option bubble with padding
     List<Padding> spacedBubbles = List.generate(optionBubbles.length, (index) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),

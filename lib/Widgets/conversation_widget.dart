@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../data/values.dart';
 
+// Contains the information neccesary to create a speech bubble
+// Passed into List<SpeechInfo> conversation value notifier
 class SpeechInfo {
   final SpeechSide side;
   final String text;
@@ -33,7 +35,7 @@ class _ConversationWidgetState extends State<ConversationWidget> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SizedBox(height: 110),
-                // Expanded(child: Container()),
+                // Create a speechWidget for each element in 'conversation'
                 ...List.generate(value.length, (index) {
                   return Container(
                     alignment: (value.elementAt(index).side == SpeechSide.bot)

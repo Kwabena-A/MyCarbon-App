@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../data/constants.dart';
 import '../data/values.dart';
 
-// Option Bubbles
+// Option Bubbles, used when running a choice question
 class OptionBubble extends StatefulWidget {
   const OptionBubble({super.key, required this.text, required this.optionType});
 
@@ -51,6 +51,7 @@ class _OptionBubbleState extends State<OptionBubble>
               ? singleSelected
               : multiSelected,
           builder: (context, value, child) {
+            // Animates bubble color based on weather this option bubble is selected
             if (value.toString().contains(widget.text)) {
               if (_controller.status != AnimationStatus.forward) {
                 _controller.forward();
@@ -60,6 +61,7 @@ class _OptionBubbleState extends State<OptionBubble>
                 _controller.reverse();
               }
             }
+
             return GestureDetector(
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
@@ -80,10 +82,12 @@ class _OptionBubbleState extends State<OptionBubble>
               ),
               onTap: () {
                 if (widget.optionType == UserInputOptions.SINGLECHOICE) {
+                  // Set current selected to self if its a single choice question
                   singleSelected.value = (singleSelected.value != widget.text)
                       ? widget.text
                       : "";
                 } else if (widget.optionType == UserInputOptions.MULTICHOICE) {
+                  // Add/remove self in selected if its a multi choice question
                   if (!multiSelected.value.contains(widget.text)) {
                     multiSelected.value.add(widget.text);
                   } else {

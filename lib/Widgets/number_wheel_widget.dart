@@ -1,9 +1,10 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:carbon_footprint/data/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+// Unfinished
 
 class NumberWheel extends StatefulWidget {
   const NumberWheel({super.key, required this.range});
