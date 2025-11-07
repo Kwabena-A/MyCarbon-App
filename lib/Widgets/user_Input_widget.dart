@@ -10,15 +10,22 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../data/icons.dart';
 import '../data/values.dart';
+import 'number_wheel_widget.dart';
 import 'option_buble_widget.dart';
 
 enum UserInputOptions { NUMBER, MULTICHOICE, SINGLECHOICE }
 
 class UserInput extends StatefulWidget {
-  const UserInput({super.key, required this.inputType, required this.options});
+  const UserInput({
+    super.key,
+    required this.inputType,
+    this.options,
+    this.range,
+  });
 
   final UserInputOptions inputType;
-  final List<String> options;
+  final List<String>? options;
+  final (int, int)? range;
 
   @override
   State<UserInput> createState() => _UserInputState();
@@ -124,7 +131,9 @@ class _UserInputState extends State<UserInput>
               },
             ),
 
-            Choice(options: widget.options, optionType: widget.inputType),
+            (widget.inputType != UserInputOptions.NUMBER)
+                ? Choice(options: widget.options!, optionType: widget.inputType)
+                : NumberWheel(range: widget.range!),
             SizedBox(height: 125),
           ],
         );

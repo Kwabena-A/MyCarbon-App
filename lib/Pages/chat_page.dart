@@ -1,5 +1,4 @@
 import 'package:carbon_footprint/Widgets/conversation_widget.dart';
-import 'package:carbon_footprint/Widgets/option_buble_widget.dart';
 import 'package:carbon_footprint/Widgets/user_Input_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +8,22 @@ import '../data/values.dart';
 class Question {
   final String question;
   final UserInputOptions questionType;
-  final List<String> options;
+  final List<String>? options;
+  final (int, int)? range;
   late final UserInput widget;
   List<String>? response;
 
-  Question(this.question, this.questionType, this.options) {
-    this.widget = UserInput(inputType: questionType, options: options);
+  Question({
+    required this.question,
+    required this.questionType,
+    this.options,
+    this.range,
+  }) {
+    if (questionType != UserInputOptions.NUMBER) {
+      this.widget = UserInput(inputType: questionType, options: options!);
+    } else {
+      this.widget = UserInput(inputType: questionType, range: range!);
+    }
   }
 
   void askQuestion() {

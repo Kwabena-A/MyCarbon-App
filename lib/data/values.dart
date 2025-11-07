@@ -23,54 +23,57 @@ ValueNotifier<String> singleSelected = ValueNotifier("");
 ValueNotifier<List<String>> multiSelected = ValueNotifier([]);
 
 final List<Question> questionList = [
-  Question("Whats your gender?", UserInputOptions.SINGLECHOICE, [
-    "♂️ Male",
-    "♀️ Female",
-  ]),
   Question(
-    "How would you categorize your body type?",
-    UserInputOptions.SINGLECHOICE,
-    ['😋 overweight', '🍔 obese', ' 🍟 underweight', '😐 normal'],
-  ),
-  Question("What does your diet look like?", UserInputOptions.MULTICHOICE, [
-    '🍽️ omnivore',
-    '🥚 vegetarian',
-    '🌿 vegan',
-    '🐟 pescatarian',
-  ]),
-  Question("How often do you shower per day?", UserInputOptions.SINGLECHOICE, [
-    "Once",
-    "Twice",
-    "Three Times",
-    "Shower?",
-  ]),
-  Question(
-    "Whats your primary heating source?",
-    UserInputOptions.SINGLECHOICE,
-    ['🪓 wood', '🚂 coal', '⚡ electricity', '🏭 natural gas'],
+    question: "Whats your gender?",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: ["♂️ Male", "♀️ Female"],
   ),
   Question(
-    "Whats your preferred mode of transport",
-    UserInputOptions.SINGLECHOICE,
-    ['🚌 public', '🚲 walk/bicycle', '🚗 private'],
+    question: "How would you categorize your body type?",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: ['😋 overweight', '🍔 obese', ' 🍟 underweight', '😐 normal'],
   ),
-  Question("Whats your vehicle type", UserInputOptions.SINGLECHOICE, [
-    'none',
-    '⛽ petrol',
-    '⛽ diesel',
-    '🎨 hybrid',
-    '🧪 lpg',
-    '⚡ electric',
-  ]),
-  Question("How socially active are you?", UserInputOptions.SINGLECHOICE, [
-    '🛀 often',
-    '🤢 never',
-    '🧼 sometimes',
-  ]),
+  Question(
+    question: "What does your diet look like?",
+    questionType: UserInputOptions.MULTICHOICE,
+    options: ['🍽️ omnivore', '🥚 vegetarian', '🌿 vegan', '🐟 pescatarian'],
+  ),
+  Question(
+    question: "How often do you shower per day?",
+    questionType: UserInputOptions.NUMBER,
+    range: (0, 3),
+  ),
+  Question(
+    question: "Whats your primary heating source?",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: ['🪓 wood', '🚂 coal', '⚡ electricity', '🏭 natural gas'],
+  ),
+  Question(
+    question: "Whats your preferred mode of transport",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: ['🚌 public', '🚲 walk/bicycle', '🚗 private'],
+  ),
+  Question(
+    question: "Whats your vehicle type",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: [
+      'none',
+      '⛽ petrol',
+      '⛽ diesel',
+      '🎨 hybrid',
+      '🧪 lpg',
+      '⚡ electric',
+    ],
+  ),
+  Question(
+    question: "How socially active are you?",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: ['🛀 often', '🤢 never', '🧼 sometimes'],
+  ),
 
-  Question("Whats your monthly grocery bill?", UserInputOptions.MULTICHOICE, [
-    'add number wheel',
-    'quickly',
-    'very fast',
-  ]),
+  Question(
+    question: "Whats your monthly grocery bill?",
+    questionType: UserInputOptions.NUMBER,
+    range: (0, 5000),
+  ),
 ];
