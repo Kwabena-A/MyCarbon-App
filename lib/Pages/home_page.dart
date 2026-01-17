@@ -11,12 +11,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ScrollController scrollController = ScrollController();
+  ScrollController scrollController =
+      ScrollController(); // main scroll controller for homepage
 
   @override
   void initState() {
     scrollController.addListener(() {
-      isScrolled.value = scrollController.position.pixels > 0;
+      isScrolled.value =
+          scrollController.position.pixels > 0; // Updated isScrolled
     });
     super.initState();
   }
@@ -24,14 +26,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      // Scroll widget
       controller: scrollController,
-
+      padding: EdgeInsets.symmetric(vertical: 100), // Top and bottom padding
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 120),
-          MainCard(),
+          MainCard(), // Top card showing Carbon Kilorgram per year
           UserBehavior(
             icon: "📖",
             header: "General",
@@ -51,7 +53,6 @@ class _HomePageState extends State<HomePage> {
               "⚡ Energy Conscious",
             ],
           ),
-          SizedBox(height: 120),
         ],
       ),
     );

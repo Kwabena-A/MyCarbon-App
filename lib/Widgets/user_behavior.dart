@@ -30,6 +30,7 @@ class _UserBehaviorState extends State<UserBehavior> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Circle Containing Icon
           Column(
             children: [
               Container(
@@ -41,12 +42,14 @@ class _UserBehaviorState extends State<UserBehavior> {
                 ),
                 child: Center(
                   child: Text(
-                    widget.icon,
+                    widget.icon, // Emoji
                     style: TextStyle(height: 1, fontSize: 25),
                   ),
                 ),
               ),
               SizedBox(height: 9),
+
+              // Dotted line (a small dot based on how many content blocks their are)
               ...List.generate(widget.content.length * 6, (index) {
                 double radius = 5;
                 return Padding(
@@ -64,6 +67,7 @@ class _UserBehaviorState extends State<UserBehavior> {
             ],
           ),
           SizedBox(width: 10),
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -83,6 +87,7 @@ class _UserBehaviorState extends State<UserBehavior> {
               ),
 
               Text.rich(
+                // For partial bolding
                 TextSpan(
                   style: TextStyle(fontSize: 13),
                   children: [
@@ -95,6 +100,8 @@ class _UserBehaviorState extends State<UserBehavior> {
                 ),
               ),
               SizedBox(height: 15),
+
+              // Content blocks
               ...List.generate(widget.content.length, (index) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 10.0),

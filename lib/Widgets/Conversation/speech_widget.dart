@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 // Passed to identify which side a speech widget should be on
 enum SpeechSide { bot, user }
 
+// Speech bubbles
 class SpeechWidget extends StatelessWidget {
   final SpeechSide side;
   final String text;
@@ -23,20 +24,23 @@ class SpeechWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: (side == SpeechSide.bot)
           ? CrossAxisAlignment.start
-          : CrossAxisAlignment.end,
+          : CrossAxisAlignment.end, // set alignment based on given side
       children: [
         Container(
           decoration: BoxDecoration(
             color: (side == SpeechSide.user)
                 ? KConstants.KMainColor
-                : KConstants.KDarkGrayColor,
+                : KConstants
+                      .KDarkGrayColor, // set color based on based on given side
             borderRadius: BorderRadius.only(
               bottomLeft: (side == SpeechSide.user)
                   ? Radius.circular(13)
                   : Radius.circular(0),
               bottomRight: (side == SpeechSide.bot)
                   ? Radius.circular(13)
-                  : Radius.circular(0),
+                  : Radius.circular(
+                      0,
+                    ), // Set border radius side based on given side
               topLeft: Radius.circular(13),
               topRight: Radius.circular(13),
             ),
@@ -54,7 +58,7 @@ class SpeechWidget extends StatelessWidget {
           ),
         ),
 
-        // Question Counter, if null nothing is passed
+        // Question Counter (ignored if nothing is passed)
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
           alignment: Alignment.topLeft,

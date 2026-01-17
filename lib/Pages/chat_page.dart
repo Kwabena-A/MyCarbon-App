@@ -1,19 +1,20 @@
-import 'package:carbon_footprint/Widgets/conversation_widget.dart';
-import 'package:carbon_footprint/Widgets/user_Input_widget.dart';
+import 'package:carbon_footprint/Widgets/Conversation/conversation_widget.dart';
+import 'package:carbon_footprint/Widgets/Conversation/user_Input_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../Widgets/speech_widget.dart';
+import '../Widgets/Conversation/speech_widget.dart';
 import '../data/values.dart';
 
 // Contains all question info
 // Question.widget contains the UserInput widget, and is used in the Chat Page
 class Question {
-  final String question;
+  final String question; // The string question
   final UserInputOptions questionType;
-  final List<String>? options;
-  final (int, int)? range;
-  late final UserInput widget;
-  List<String>? response;
+  final List<String>? options; // List of options (if a MCQ)
+  final (int, int)? range; // range of scroll wheel (if a scroll wheel question)
+  late final UserInput
+  widget; // contains the UserInput widget, and is used in the Chat Page
+  List<String>? response; // The users response,
 
   Question({
     required this.question,
@@ -22,6 +23,7 @@ class Question {
     this.range,
   }) {
     if (questionType != UserInputOptions.NUMBER) {
+      // initialize UserInput widget based on question type
       this.widget = UserInput(inputType: questionType, options: options!);
     } else {
       this.widget = UserInput(inputType: questionType, range: range!);
@@ -41,16 +43,19 @@ class Question {
   }
 
   void getResponse() {
-    // Sets this.response to the current value in singleSelected or multiSelected
-    response = (questionType == UserInputOptions.SINGLECHOICE)
+    // Sets this.response to the current value of singleSelected or multiSelected
+    // E.g. When called, whatever is selected will be set to this.response
+    response =
+        (questionType == UserInputOptions.SINGLECHOICE) // set
         ? [singleSelected.value]
         : multiSelected.value;
     if (currentQuestion.value < questionList.length - 1) {
-      currentQuestion.value++;
+      currentQuestion.value++; // Move to next question
       askCurrentQuestion();
     } else {
+      // No more questions to ask
       for (Question question in questionList) {
-        print(question.response);
+        print(question.response); // Print all responses
       }
     }
   }
@@ -82,12 +87,15 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: currentQuestion,
+      valueListenable:
+          currentQuestion, // Value listenable container index of current question
       builder: (context, value, child) {
         return Stack(
           children: [
-            ConversationWidget(),
-            questionList.elementAt(currentQuestion.value).widget,
+            ConversationWidget(), // Contains text bubbles
+            questionList
+                .elementAt(currentQuestion.value)
+                .widget, // Current question's UserInput Widget
           ],
         );
       },

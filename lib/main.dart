@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  Question.initConversation();
+  Question.initConversation(); // adds first chat message
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode
@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: WidgetTree(),
+      home:
+          WidgetTree(), // Main parent widget. Switches between home, chat and statistic page.
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,27 +1,35 @@
 import 'package:carbon_footprint/Pages/chat_page.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../Widgets/conversation_widget.dart';
-import '../Widgets/speech_widget.dart';
-import '../Widgets/user_Input_widget.dart';
+import '../Widgets/Conversation/conversation_widget.dart';
+import '../Widgets/Conversation/speech_widget.dart';
+import '../Widgets/Conversation/user_Input_widget.dart';
 
-ValueNotifier currentPage = ValueNotifier(0);
-ValueNotifier isScrolled = ValueNotifier(false);
+ValueNotifier currentPage = ValueNotifier(0); // Changes based on current page
+ValueNotifier isScrolled = ValueNotifier(false); // Changes when user scrolls
 
 ValueNotifier<List<SpeechInfo>> conversation = ValueNotifier([
   SpeechInfo(side: SpeechSide.bot, text: "Welcome!"),
-]);
+]); // Contains SpeechInfo objects for each speech bubble in live conversation
 
-ValueNotifier<int> currentQuestion = ValueNotifier(0);
+ValueNotifier<int> currentQuestion = ValueNotifier(
+  0,
+); // Changes based on current question
 
+// Resets selected options
 void resetSelected() {
   singleSelected.value = "";
   multiSelected.value = [];
 }
 
-ValueNotifier<String> singleSelected = ValueNotifier("");
-ValueNotifier<List<String>> multiSelected = ValueNotifier([]);
+ValueNotifier<String> singleSelected = ValueNotifier(
+  "",
+); // Used to track selected option for single choice questions
+ValueNotifier<List<String>> multiSelected = ValueNotifier(
+  [],
+); // Used to track selected options for multi choice questions
 
+// List of all questions, iterated through to ask questions
 final List<Question> questionList = [
   Question(
     question: "Whats your gender?",

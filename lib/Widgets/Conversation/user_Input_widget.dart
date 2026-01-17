@@ -1,20 +1,18 @@
 import 'dart:ui';
 
 import 'package:carbon_footprint/Pages/chat_page.dart';
-import 'package:carbon_footprint/Widgets/conversation_widget.dart';
-import 'package:carbon_footprint/Widgets/speech_widget.dart';
+import 'package:carbon_footprint/Widgets/Conversation/conversation_widget.dart';
+import 'package:carbon_footprint/Widgets/Conversation/speech_widget.dart';
 import 'package:carbon_footprint/data/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../data/icons.dart';
-import '../data/values.dart';
+import '../../data/values.dart';
 import 'number_wheel_widget.dart';
-import 'option_buble_widget.dart';
+import 'option_bubble_widget.dart';
 
 enum UserInputOptions { NUMBER, MULTICHOICE, SINGLECHOICE }
 
+// Parent. Contains option bubbls/scroll wheel, aswell as Submit and Idk Button
 class UserInput extends StatefulWidget {
   const UserInput({
     super.key,
@@ -34,7 +32,7 @@ class UserInput extends StatefulWidget {
 class _UserInputState extends State<UserInput>
     with SingleTickerProviderStateMixin {
   late final AnimationController _confirmController;
-  late final Animation _confirmAnimation;
+  late final Animation _confirmAnimation; // Color animation for submit/not sure
 
   @override
   void initState() {
@@ -45,7 +43,7 @@ class _UserInputState extends State<UserInput>
     _confirmAnimation = ColorTween(
       begin: KConstants.KDarkGrayColor,
       end: KConstants.KMainColor,
-    ).animate(_confirmController);
+    ).animate(_confirmController); // Tween between green and gray
 
     super.initState();
   }
@@ -61,17 +59,18 @@ class _UserInputState extends State<UserInput>
     return ValueListenableBuilder(
       valueListenable: (widget.inputType == UserInputOptions.SINGLECHOICE)
           ? singleSelected
-          : multiSelected,
-      builder: (context, value, child) {
-        bool isSelectedEmpty = value == "" || value.toString() == "[]";
+          : multiSelected, // Choose a value listenable based on input type
+      builder: (context, selected, child) {
+        bool isSelectedEmpty = selected == "" || selected.toString() == "[]";
 
         if (!isSelectedEmpty) {
+          // If a choice has been made
           if (_confirmController.status != AnimationStatus.forward) {
-            _confirmController.forward();
+            _confirmController.forward(); // Change Not Sure to submit
           }
         } else {
           if (_confirmController.status != AnimationStatus.reverse) {
-            _confirmController.reverse();
+            _confirmController.reverse(); // Change Submit to Not Sure
           }
         }
 
@@ -86,29 +85,25 @@ class _UserInputState extends State<UserInput>
               animation: _confirmAnimation,
               builder: (context, child) {
                 return GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: _confirmAnimation.value,
-                      ),
-
-                      // set text based on if selected is empty
-                      child: (isSelectedEmpty)
-                          ? Text("I'm not sure")
-                          : Text(
-                              "Submit",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: _confirmAnimation
+                          .value, // Change color based on _confirmAnimation color
                     ),
+
+                    // set text based on if selected is empty
+                    child: (isSelectedEmpty)
+                        ? Text("I'm not sure")
+                        : Text("Submit", style: TextStyle(color: Colors.white)),
                   ),
 
                   onTap: () {
                     // Presses Confirm
                     if (!isSelectedEmpty) {
-                      // say user selection in chat
+                      // Add user choice to conversation
                       conversation.value.add(
                         SpeechInfo(
                           side: SpeechSide.user,
@@ -119,12 +114,12 @@ class _UserInputState extends State<UserInput>
                               : multiSelected.value.toString(),
                         ),
                       );
-                      conversation.notifyListeners();
+                      conversation.notifyListeners(); // Update conversation
 
                       // Saves selected choice in current question
                       Question.saveResponse();
                     } else {
-                      // User is not sure
+                      // User is not sure, add Not sure to conversation
                       conversation.value.add(
                         SpeechInfo(side: SpeechSide.user, text: "I'm not sure"),
                       );
@@ -149,7 +144,7 @@ class _UserInputState extends State<UserInput>
   }
 }
 
-// Used to create optionBubble for choice questions
+// Used to Contains optionBubble objects for choice questions
 class Choice extends StatefulWidget {
   final List<String> options; // List of all options as strings
   final UserInputOptions optionType; // Single choice or multichoice
@@ -182,6 +177,7 @@ class _ChoiceState extends State<Choice> {
       );
     });
 
+    // Actual widget
     return Column(
       children: [
         SizedBox(

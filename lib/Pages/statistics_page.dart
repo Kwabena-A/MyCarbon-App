@@ -1,3 +1,5 @@
+// Nothing yet...
+
 import 'package:flutter/material.dart';
 
 class StatisticsPage extends StatelessWidget {
