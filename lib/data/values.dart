@@ -37,14 +37,14 @@ ValueNotifier<List<int>> scrollWheelSelected = ValueNotifier(
 // List of all questions, iterated through to ask questions
 final List<Question> questionList = [
   Question(
-    question: "Whats your gender?",
-    questionType: UserInputOptions.SINGLECHOICE,
-    options: ["♂️ Male", "♀️ Female"],
-  ),
-  Question(
     question: "How would you categorize your body type?",
     questionType: UserInputOptions.SINGLECHOICE,
     options: ['😋 overweight', '🍔 obese', ' 🍟 underweight', '😐 normal'],
+  ),
+  Question(
+    question: "Whats your gender?",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: ["♂️ Male", "♀️ Female"],
   ),
   Question(
     question: "What does your diet look like?",
@@ -88,5 +88,64 @@ final List<Question> questionList = [
     question: "Whats your monthly grocery bill?",
     questionType: UserInputOptions.NUMBER,
     range: (0, 5000),
+  ),
+  Question(
+    question: "How frequently do you travel by air?",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: ['frequently', 'rarely', 'never', 'very frequently'],
+  ),
+
+  Question(
+    question: "Whats your monthly travel distances? (km)",
+    questionType: UserInputOptions.NUMBER,
+    range: (0, 10000),
+  ),
+
+  Question(
+    question: "What size waste bags do you use?",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: ['large', 'extra large', 'small', 'medium'],
+  ),
+
+  Question(
+    question: "How many waste bags do you use per week?",
+    questionType: UserInputOptions.NUMBER,
+    range: (0, 50),
+  ),
+
+  Question(
+    question: "During a day, how many hours do you spend on the TV and PC?",
+    questionType: UserInputOptions.NUMBER,
+    range: (0, 24),
+  ),
+
+  Question(
+    question: "How many new clothes do you buy monthly?",
+    questionType: UserInputOptions.NUMBER,
+    range: (0, 100),
+  ),
+
+  Question(
+    question: "How long do you spend on the internet per day?",
+    questionType: UserInputOptions.NUMBER,
+    range: (0, 24),
+  ),
+
+  Question(
+    question: "Do you prioritize energy efficient devices?",
+    questionType: UserInputOptions.SINGLECHOICE,
+    options: ['No', 'Sometimes', 'Yes'],
+  ),
+
+  Question(
+    question: "Which objects do you primarily recycle?",
+    questionType: UserInputOptions.MULTICHOICE,
+    options: ["Metal", "Paper", "Plastic", "Glass"],
+  ),
+
+  Question(
+    question: "What do you cook with?",
+    questionType: UserInputOptions.MULTICHOICE,
+    options: ["Microwave", "Airfryer", "Stove", "Oven", "Grill"],
   ),
 ];

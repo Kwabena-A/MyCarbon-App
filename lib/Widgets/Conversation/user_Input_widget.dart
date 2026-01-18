@@ -110,7 +110,6 @@ class _UserInputState extends State<UserInput>
                       onTap: () {
                         // Saves selected choice in current question
                         Question.saveResponse();
-
                         // Presses Confirm
                         if (!isSelectedEmpty) {
                           // Add user choice to conversation
@@ -120,6 +119,8 @@ class _UserInputState extends State<UserInput>
                               text: selected.toString(),
                             ),
                           );
+
+                          Question.askNextQuestions();
                           conversation.notifyListeners(); // Update conversation
                         } else {
                           // User is not sure, add Not sure to conversation

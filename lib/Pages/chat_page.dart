@@ -58,7 +58,9 @@ class Question {
         return scrollWheelSelected.value[index].toString();
       });
     }
+  }
 
+  static void askNextQuestions() {
     if (currentQuestion.value < questionList.length - 1) {
       currentQuestion.value++; // Move to next question
       askCurrentQuestion();

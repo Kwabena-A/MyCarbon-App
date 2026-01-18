@@ -6,7 +6,6 @@ import 'package:carbon_footprint/data/values.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// Unfinished
 // Used for questiosn that require a number as a response
 class NumberWheel extends StatefulWidget {
   const NumberWheel({super.key, required this.range});
