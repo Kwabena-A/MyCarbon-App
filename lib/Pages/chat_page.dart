@@ -45,10 +45,20 @@ class Question {
   void getResponse() {
     // Sets this.response to the current value of singleSelected or multiSelected
     // E.g. When called, whatever is selected will be set to this.response
-    response =
-        (questionType == UserInputOptions.SINGLECHOICE) // set
-        ? [singleSelected.value]
-        : multiSelected.value;
+
+    if (questionType == UserInputOptions.SINGLECHOICE) {
+      response = [singleSelected.value];
+    } else if (questionType == UserInputOptions.MULTICHOICE) {
+      response = multiSelected.value;
+    } else {
+      while (scrollWheelSelected.value.remove(-1)) {}
+      ;
+
+      response = List.generate(scrollWheelSelected.value.length, (index) {
+        return scrollWheelSelected.value[index].toString();
+      });
+    }
+
     if (currentQuestion.value < questionList.length - 1) {
       currentQuestion.value++; // Move to next question
       askCurrentQuestion();
@@ -57,6 +67,16 @@ class Question {
       for (Question question in questionList) {
         print(question.response); // Print all responses
       }
+    }
+  }
+
+  ValueNotifier getValueNotifier() {
+    if (widget.inputType == UserInputOptions.SINGLECHOICE) {
+      return singleSelected;
+    } else if (widget.inputType == UserInputOptions.MULTICHOICE) {
+      return multiSelected;
+    } else {
+      return scrollWheelSelected;
     }
   }
 

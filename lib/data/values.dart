@@ -20,6 +20,7 @@ ValueNotifier<int> currentQuestion = ValueNotifier(
 void resetSelected() {
   singleSelected.value = "";
   multiSelected.value = [];
+  scrollWheelSelected.value = List.generate(10, (index) => -1);
 }
 
 ValueNotifier<String> singleSelected = ValueNotifier(
@@ -28,6 +29,10 @@ ValueNotifier<String> singleSelected = ValueNotifier(
 ValueNotifier<List<String>> multiSelected = ValueNotifier(
   [],
 ); // Used to track selected options for multi choice questions
+
+ValueNotifier<List<int>> scrollWheelSelected = ValueNotifier(
+  List.generate(10, (index) => -1),
+);
 
 // List of all questions, iterated through to ask questions
 final List<Question> questionList = [

@@ -57,87 +57,98 @@ class _UserInputState extends State<UserInput>
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: (widget.inputType == UserInputOptions.SINGLECHOICE)
-          ? singleSelected
-          : multiSelected, // Choose a value listenable based on input type
-      builder: (context, selected, child) {
-        bool isSelectedEmpty = selected == "" || selected.toString() == "[]";
+      valueListenable: currentQuestion, // Track current question
+      builder: (context, value, child) {
+        return ValueListenableBuilder(
+          valueListenable: questionList[currentQuestion.value]
+              .getValueNotifier(),
+          // Choose a value listenable based on input type
+          builder: (context, selected, child) {
+            bool isSelectedEmpty =
+                selected == "" || selected.toString() == "[]";
 
-        if (!isSelectedEmpty) {
-          // If a choice has been made
-          if (_confirmController.status != AnimationStatus.forward) {
-            _confirmController.forward(); // Change Not Sure to submit
-          }
-        } else {
-          if (_confirmController.status != AnimationStatus.reverse) {
-            _confirmController.reverse(); // Change Submit to Not Sure
-          }
-        }
+            if (!isSelectedEmpty) {
+              // If a choice has been made
+              if (_confirmController.status != AnimationStatus.forward) {
+                _confirmController.forward(); // Change Not Sure to submit
+              }
+            } else {
+              if (_confirmController.status != AnimationStatus.reverse) {
+                _confirmController.reverse(); // Change Submit to Not Sure
+              }
+            }
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(child: Container()),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(child: Container()),
 
-            // Submit/Idk Button
-            AnimatedBuilder(
-              animation: _confirmAnimation,
-              builder: (context, child) {
-                return GestureDetector(
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    margin: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: _confirmAnimation
-                          .value, // Change color based on _confirmAnimation color
-                    ),
-
-                    // set text based on if selected is empty
-                    child: (isSelectedEmpty)
-                        ? Text("I'm not sure")
-                        : Text("Submit", style: TextStyle(color: Colors.white)),
-                  ),
-
-                  onTap: () {
-                    // Presses Confirm
-                    if (!isSelectedEmpty) {
-                      // Add user choice to conversation
-                      conversation.value.add(
-                        SpeechInfo(
-                          side: SpeechSide.user,
-                          text:
-                              (widget.inputType ==
-                                  UserInputOptions.SINGLECHOICE)
-                              ? singleSelected.value
-                              : multiSelected.value.toString(),
+                // Submit/Idk Button
+                AnimatedBuilder(
+                  animation: _confirmAnimation,
+                  builder: (context, child) {
+                    return GestureDetector(
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: _confirmAnimation
+                              .value, // Change color based on _confirmAnimation color
                         ),
-                      );
-                      conversation.notifyListeners(); // Update conversation
 
-                      // Saves selected choice in current question
-                      Question.saveResponse();
-                    } else {
-                      // User is not sure, add Not sure to conversation
-                      conversation.value.add(
-                        SpeechInfo(side: SpeechSide.user, text: "I'm not sure"),
-                      );
-                      conversation.notifyListeners();
-                      Question.saveResponse();
-                    }
-                    resetSelected();
+                        // set text based on if selected is empty
+                        child: (isSelectedEmpty)
+                            ? Text("I'm not sure")
+                            : Text(
+                                "Submit",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                      ),
+
+                      onTap: () {
+                        // Saves selected choice in current question
+                        Question.saveResponse();
+
+                        // Presses Confirm
+                        if (!isSelectedEmpty) {
+                          // Add user choice to conversation
+                          conversation.value.add(
+                            SpeechInfo(
+                              side: SpeechSide.user,
+                              text: selected.toString(),
+                            ),
+                          );
+                          conversation.notifyListeners(); // Update conversation
+                        } else {
+                          // User is not sure, add Not sure to conversation
+                          conversation.value.add(
+                            SpeechInfo(
+                              side: SpeechSide.user,
+                              text: "I'm not sure",
+                            ),
+                          );
+                          conversation.notifyListeners();
+                          Question.saveResponse();
+                        }
+                        resetSelected();
+                      },
+                    );
                   },
-                );
-              },
-            ),
+                ),
 
-            // Based on questions user input options, a choiceWidget or NumberWheel widget is added
-            (widget.inputType != UserInputOptions.NUMBER)
-                ? Choice(options: widget.options!, optionType: widget.inputType)
-                : NumberWheel(range: widget.range!),
-            SizedBox(height: 125),
-          ],
+                // Based on questions user input options, a choiceWidget or NumberWheel widget is added
+                (widget.inputType != UserInputOptions.NUMBER)
+                    ? Choice(
+                        options: widget.options!,
+                        optionType: widget.inputType,
+                      )
+                    : NumberWheel(range: widget.range!),
+                SizedBox(height: 125),
+              ],
+            );
+          },
         );
       },
     );
