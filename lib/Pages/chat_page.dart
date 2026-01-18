@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carbon_footprint/Widgets/Conversation/conversation_widget.dart';
 import 'package:carbon_footprint/Widgets/Conversation/user_Input_widget.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +55,10 @@ class Question {
     } else {
       while (scrollWheelSelected.value.remove(-1)) {}
       ;
+      if (scrollWheelSelected.value.length == 0) {
+        response = ["0"];
+        return;
+      }
 
       response = List.generate(scrollWheelSelected.value.length, (index) {
         return scrollWheelSelected.value[index].toString();
@@ -66,9 +72,21 @@ class Question {
       askCurrentQuestion();
     } else {
       // No more questions to ask
+      List<String> args = ["main.py"];
       for (Question question in questionList) {
-        print(question.response); // Print all responses
+        if (question.questionType == UserInputOptions.SINGLECHOICE) {
+          args.add(question.response![0]);
+        } else if (question.questionType == UserInputOptions.MULTICHOICE) {
+          args.add("${question.response!}");
+        } else {
+          String stringVal = "";
+          for (dynamic num in question.response!) {
+            stringVal += num;
+          }
+          args.add("${int.parse(stringVal)}");
+        }
       }
+      print(args); // Print all responses
     }
   }
 
@@ -80,6 +98,10 @@ class Question {
     } else {
       return scrollWheelSelected;
     }
+  }
+
+  static Future<void> getEmissions(List<String> args) async {
+    Process.run("python", args);
   }
 
   static void initConversation() {

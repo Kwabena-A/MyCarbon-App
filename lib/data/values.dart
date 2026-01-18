@@ -39,17 +39,17 @@ final List<Question> questionList = [
   Question(
     question: "How would you categorize your body type?",
     questionType: UserInputOptions.SINGLECHOICE,
-    options: ['😋 overweight', '🍔 obese', ' 🍟 underweight', '😐 normal'],
+    options: ['overweight', 'obese', ' underweight', 'normal'],
   ),
   Question(
     question: "Whats your gender?",
     questionType: UserInputOptions.SINGLECHOICE,
-    options: ["♂️ Male", "♀️ Female"],
+    options: ["Male", "Female"],
   ),
   Question(
     question: "What does your diet look like?",
     questionType: UserInputOptions.MULTICHOICE,
-    options: ['🍽️ omnivore', '🥚 vegetarian', '🌿 vegan', '🐟 pescatarian'],
+    options: ['omnivore', 'vegetarian', 'vegan', 'pescatarian'],
   ),
   Question(
     question: "How often do you shower per day?",
@@ -59,29 +59,22 @@ final List<Question> questionList = [
   Question(
     question: "Whats your primary heating source?",
     questionType: UserInputOptions.SINGLECHOICE,
-    options: ['🪓 wood', '🚂 coal', '⚡ electricity', '🏭 natural gas'],
+    options: ['wood', 'coal', 'electricity', 'natural gas'],
   ),
   Question(
     question: "Whats your preferred mode of transport",
     questionType: UserInputOptions.SINGLECHOICE,
-    options: ['🚌 public', '🚲 walk/bicycle', '🚗 private'],
+    options: ['public', 'walk/bicycle', 'private'],
   ),
   Question(
     question: "Whats your vehicle type",
     questionType: UserInputOptions.SINGLECHOICE,
-    options: [
-      'none',
-      '⛽ petrol',
-      '⛽ diesel',
-      '🎨 hybrid',
-      '🧪 lpg',
-      '⚡ electric',
-    ],
+    options: ['none', 'petrol', 'diesel', 'hybrid', 'lpg', 'electric'],
   ),
   Question(
     question: "How socially active are you?",
     questionType: UserInputOptions.SINGLECHOICE,
-    options: ['🛀 often', '🤢 never', '🧼 sometimes'],
+    options: ['often', 'never', 'sometimes'],
   ),
 
   Question(

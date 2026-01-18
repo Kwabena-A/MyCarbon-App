@@ -58,7 +58,6 @@ class _NumberWheelState extends State<NumberWheel> {
                       scrollWheelSelected.value[(scrollWheelCount - 1) -
                               index] =
                           value;
-                      scrollWheelSelected.notifyListeners();
                     },
                     overAndUnderCenterOpacity: 0.5, // Top bottom fade out
                     itemExtent: 25, // height of each item
@@ -71,6 +70,9 @@ class _NumberWheelState extends State<NumberWheel> {
                                   1
                             : 10),
                         (numIndex) {
+                          scrollWheelSelected.value[(scrollWheelCount - 1) -
+                                  index] =
+                              0;
                           // Loop numbers from 1 to specified range
                           return Text(
                             "${numIndex}", // 1 - range
