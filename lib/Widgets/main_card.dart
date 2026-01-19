@@ -1,3 +1,4 @@
+import 'package:carbon_footprint/data/values.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -51,7 +52,7 @@ class _MainCardState extends State<MainCard>
             style: GoogleFonts.getFont("Rubik", fontSize: 10),
           ),
           Text(
-            "2238",
+            "${(emissions.value != null) ? (emissions.value!.floor()) : "~"}",
             style: GoogleFonts.getFont(
               "Montserrat",
               fontSize: 55,

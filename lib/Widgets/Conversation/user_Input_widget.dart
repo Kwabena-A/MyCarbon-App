@@ -116,7 +116,8 @@ class _UserInputState extends State<UserInput>
                           conversation.value.add(
                             SpeechInfo(
                               side: SpeechSide.user,
-                              text: selected.toString(),
+                              text: questionList[currentQuestion.value].response
+                                  .toString(),
                             ),
                           );
 
@@ -145,7 +146,10 @@ class _UserInputState extends State<UserInput>
                         options: widget.options!,
                         optionType: widget.inputType,
                       )
-                    : NumberWheel(range: widget.range!),
+                    : NumberWheel(
+                        range: widget.range!,
+                        key: Key("${currentQuestion.value}"),
+                      ),
                 SizedBox(height: 125),
               ],
             );

@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import '../Widgets/Conversation/speech_widget.dart';
 import '../data/values.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
 // Contains all question info
 // Question.widget contains the UserInput widget, and is used in the Chat Page
 class Question {
@@ -59,35 +62,72 @@ class Question {
         response = ["0"];
         return;
       }
-
-      response = List.generate(scrollWheelSelected.value.length, (index) {
-        return scrollWheelSelected.value[index].toString();
-      });
+      String strVal = "";
+      for (int num in scrollWheelSelected.value) {
+        strVal += "$num";
+      }
+      response = ["${int.parse(strVal)}"];
+      print(response);
     }
   }
 
-  static void askNextQuestions() {
+  static void askNextQuestions() async {
     if (currentQuestion.value < questionList.length - 1) {
       currentQuestion.value++; // Move to next question
       askCurrentQuestion();
     } else {
       // No more questions to ask
-      List<String> args = ["main.py"];
+      List<String> args = []; // All questions responses will be save here
       for (Question question in questionList) {
-        if (question.questionType == UserInputOptions.SINGLECHOICE) {
-          args.add(question.response![0]);
-        } else if (question.questionType == UserInputOptions.MULTICHOICE) {
-          args.add("${question.response!}");
+        if (question.questionType != UserInputOptions.MULTICHOICE) {
+          args.add(question.response![0]); // Add only element in list to args
         } else {
-          String stringVal = "";
-          for (dynamic num in question.response!) {
-            stringVal += num;
-          }
-          args.add("${int.parse(stringVal)}");
+          args.add("${question.response}"); // Add all entire list to args
         }
       }
-      print(args); // Print all responses
+      var request = Uri.http(
+        "spirit-facing-seminars-athens.trycloudflare.com", // Emission API URL
+        "/make-prediction/",
+        {"args": args},
+      );
+
+      var response = await http.get(request);
+      if (response.statusCode == 200) {
+        // Successfully Calculated
+        var jsonResponse =
+            convert.jsonDecode(response.body)
+                as Map<String, dynamic>; // Convert to map
+        emissions.value = double.parse(
+          jsonResponse["prediction"].substring(
+            1,
+            jsonResponse["prediction"].length - 2,
+          ),
+        );
+        conversation.value.add(
+          SpeechInfo(side: SpeechSide.bot, text: "Your Prediction Is Ready!"),
+        );
+        conversation.value.add(
+          SpeechInfo(
+            side: SpeechSide.bot,
+            text: "Your Emissions are ${emissions.value!.floor()} C kg/year",
+          ),
+        );
+        conversation.value.add(
+          SpeechInfo(side: SpeechSide.bot, text: "Return home to learn more."),
+        );
+      } else {
+        conversation.value.add(
+          SpeechInfo(
+            side: SpeechSide.bot,
+            text: "Sorry, their was an error when processing your information",
+          ),
+        );
+        conversation.value.add(
+          SpeechInfo(side: SpeechSide.bot, text: "Please contact kb rn asap"),
+        );
+      }
     }
+    conversation.notifyListeners();
   }
 
   ValueNotifier getValueNotifier() {
@@ -98,10 +138,6 @@ class Question {
     } else {
       return scrollWheelSelected;
     }
-  }
-
-  static Future<void> getEmissions(List<String> args) async {
-    Process.run("python", args);
   }
 
   static void initConversation() {

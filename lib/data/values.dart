@@ -5,6 +5,8 @@ import '../Widgets/Conversation/conversation_widget.dart';
 import '../Widgets/Conversation/speech_widget.dart';
 import '../Widgets/Conversation/user_Input_widget.dart';
 
+ValueNotifier<double?> emissions = ValueNotifier(null);
+
 ValueNotifier currentPage = ValueNotifier(0); // Changes based on current page
 ValueNotifier isScrolled = ValueNotifier(false); // Changes when user scrolls
 
@@ -39,16 +41,16 @@ final List<Question> questionList = [
   Question(
     question: "How would you categorize your body type?",
     questionType: UserInputOptions.SINGLECHOICE,
-    options: ['overweight', 'obese', ' underweight', 'normal'],
+    options: ['overweight', 'obese', 'underweight', 'normal'],
   ),
   Question(
     question: "Whats your gender?",
     questionType: UserInputOptions.SINGLECHOICE,
-    options: ["Male", "Female"],
+    options: ["male", "female"],
   ),
   Question(
     question: "What does your diet look like?",
-    questionType: UserInputOptions.MULTICHOICE,
+    questionType: UserInputOptions.SINGLECHOICE,
     options: ['omnivore', 'vegetarian', 'vegan', 'pescatarian'],
   ),
   Question(

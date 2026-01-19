@@ -18,6 +18,11 @@ class NumberWheel extends StatefulWidget {
 
 class _NumberWheelState extends State<NumberWheel> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     int scrollWheelCount = 1; // Number of scroll wheels
     while (widget.range.$2 / pow(10, scrollWheelCount) > 1) {

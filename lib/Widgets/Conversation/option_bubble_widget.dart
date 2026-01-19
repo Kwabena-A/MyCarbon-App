@@ -51,7 +51,12 @@ class _OptionBubbleState extends State<OptionBubble>
               ? singleSelected
               : multiSelected, // Choose a value listenable based on whether its single or multichoice
           builder: (context, selected, child) {
-            bool isSelected = selected.toString().contains(widget.text);
+            late bool isSelected;
+            if (widget.optionType == UserInputOptions.MULTICHOICE) {
+              isSelected = selected.toString().contains(widget.text);
+            } else {
+              isSelected = selected == widget.text;
+            }
 
             // Animates bubble color based on weather this option bubble is selected
             if (isSelected) {
