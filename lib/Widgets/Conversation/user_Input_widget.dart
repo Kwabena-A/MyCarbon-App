@@ -10,7 +10,7 @@ import '../../data/values.dart';
 import 'number_wheel_widget.dart';
 import 'option_bubble_widget.dart';
 
-enum UserInputOptions { NUMBER, MULTICHOICE, SINGLECHOICE }
+enum UserInputOptions { NUMBER, MULTICHOICE, SINGLECHOICE, NONE }
 
 // Parent. Contains option bubbls/scroll wheel, aswell as Submit and Idk Button
 class UserInput extends StatefulWidget {

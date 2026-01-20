@@ -143,4 +143,10 @@ final List<Question> questionList = [
     questionType: UserInputOptions.MULTICHOICE,
     options: ["Microwave", "Airfryer", "Stove", "Oven", "Grill"],
   ),
+
+  Question(
+    question: "Your Done!",
+    questionType: UserInputOptions.NONE,
+    options: [" "],
+  ),
 ];

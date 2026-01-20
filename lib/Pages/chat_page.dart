@@ -75,13 +75,14 @@ class Question {
     if (currentQuestion.value < questionList.length - 1) {
       currentQuestion.value++; // Move to next question
       askCurrentQuestion();
-    } else {
+    }
+    if (currentQuestion.value >= questionList.length - 1) {
+      print("${currentQuestion.value} !!!!!!!!!!!!!!!!!!!!!!!!!!!");
       // No more questions to ask
-
       conversation.value.add(
         SpeechInfo(
           side: SpeechSide.bot,
-          text: "Your Done! I'm processing your responses...",
+          text: "I'm processing your responses...",
         ),
       );
       conversation.value.add(
@@ -94,7 +95,8 @@ class Question {
 
       List<String> args = []; // All questions responses will be save here
       for (Question question in questionList) {
-        if (question.questionType != UserInputOptions.MULTICHOICE) {
+        if (question.questionType != UserInputOptions.MULTICHOICE &&
+            question.questionType != UserInputOptions.NONE) {
           args.add(question.response![0]); // Add only element in list to args
         } else {
           args.add("${question.response}"); // Add all entire list to args
@@ -185,12 +187,15 @@ class _ChatPageState extends State<ChatPage> {
       valueListenable:
           currentQuestion, // Value listenable container index of current question
       builder: (context, value, child) {
+        Question currentQuestionObject = questionList.elementAt(
+          currentQuestion.value,
+        );
         return Stack(
           children: [
             ConversationWidget(), // Contains text bubbles
-            questionList
-                .elementAt(currentQuestion.value)
-                .widget, // Current question's UserInput Widget
+            (currentQuestionObject.questionType != UserInputOptions.NONE)
+                ? currentQuestionObject.widget
+                : Container(),
           ],
         );
       },
