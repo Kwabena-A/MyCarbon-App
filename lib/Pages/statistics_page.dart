@@ -372,6 +372,8 @@ void emissionsCalc() {
             ),
           ),
 
+          SizedBox(height: 10), // Space between title and pie chart
+
           SizedBox(
             height: 425,
             width: 100,
@@ -388,14 +390,14 @@ void emissionsCalc() {
                   PieChartSectionData(
                     value: (bodyTypeEmissions / userEmissions * 100), // Values per section should add up to 100
                     color: Colors.green,
-                    title: 'Body Type',
+                    title: 'Body\nType',
                     radius: 182, // Used to adjust size (make sure all sections have the same radius)
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
-                    titlePositionPercentageOffset: 0.65, // Adjusts position of title within section
+                    titlePositionPercentageOffset: 1.15, // Adjusts position of title within section
                   ),
 
                   // Diet Section
@@ -406,10 +408,10 @@ void emissionsCalc() {
                     radius: 182,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
-                      color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
+                    titlePositionPercentageOffset: 1.1
                   ),
 
                   // Heating Section
@@ -420,10 +422,10 @@ void emissionsCalc() {
                     radius: 182,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
-                    titlePositionPercentageOffset: 0.55
+                    titlePositionPercentageOffset: 1.2
                   ),
 
                   // Transport Mode Section
@@ -445,14 +447,14 @@ void emissionsCalc() {
                   PieChartSectionData(
                     value: (vehicleTypeEmissions / userEmissions * 100),
                     color: Colors.pinkAccent,
-                    title: 'Vehicle\nType',
+                    title: 'Vehicle Type',
                     radius: 182,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
-                    titlePositionPercentageOffset: 0.7
+                    titlePositionPercentageOffset: 1.175
                   ),
 
                   // Social Activity Section
@@ -463,11 +465,10 @@ void emissionsCalc() {
                     radius: 182,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
-                      color: Colors.white,
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
-                    titlePositionPercentageOffset: 0.8
+                    titlePositionPercentageOffset: 1.1
                   ),
 
                   // Air Travel Section
@@ -478,10 +479,10 @@ void emissionsCalc() {
                     radius: 182,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
-                    titlePositionPercentageOffset: 0.8
+                    titlePositionPercentageOffset: 1.2
                   ),
 
                   // Waste Bag Size Section
@@ -492,11 +493,10 @@ void emissionsCalc() {
                     radius: 182,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
-                      color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
-                    titlePositionPercentageOffset: 0.8
+                    titlePositionPercentageOffset: 1.15
                   ),
 
                   // Energy Efficient Devices Section
@@ -507,7 +507,7 @@ void emissionsCalc() {
                     radius: 182,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
                     titlePositionPercentageOffset: 0.8
@@ -547,7 +547,7 @@ void emissionsCalc() {
             ),
           ),
 
-          SizedBox(height: 10), // Space between pie chart and bar chart title
+          SizedBox(height: 20), // Space between pie chart and bar chart title
 
           // Bar Chart Title
           Padding(
