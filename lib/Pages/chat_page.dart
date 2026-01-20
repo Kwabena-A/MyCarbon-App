@@ -77,6 +77,21 @@ class Question {
       askCurrentQuestion();
     } else {
       // No more questions to ask
+
+      conversation.value.add(
+        SpeechInfo(
+          side: SpeechSide.bot,
+          text: "Your Done! I'm processing your responses...",
+        ),
+      );
+      conversation.value.add(
+        SpeechInfo(
+          side: SpeechSide.bot,
+          text: "Please wait for up to 1 minute...",
+        ),
+      );
+      conversation.notifyListeners();
+
       List<String> args = []; // All questions responses will be save here
       for (Question question in questionList) {
         if (question.questionType != UserInputOptions.MULTICHOICE) {
@@ -86,7 +101,7 @@ class Question {
         }
       }
       var request = Uri.http(
-        "xhtml-bikini-permission-angle.trycloudflare.com", // Emission API URL
+        "carbon-emissions-api.onrender.com", // Emission API URL
         "/make-prediction/",
         {"args": args},
       );
