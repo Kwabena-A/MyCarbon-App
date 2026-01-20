@@ -86,7 +86,7 @@ class Question {
         }
       }
       var request = Uri.http(
-        "spirit-facing-seminars-athens.trycloudflare.com", // Emission API URL
+        "xhtml-bikini-permission-angle.trycloudflare.com", // Emission API URL
         "/make-prediction/",
         {"args": args},
       );
