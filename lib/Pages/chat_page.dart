@@ -120,6 +120,9 @@ class Question {
             jsonResponse["prediction"].length - 2,
           ),
         );
+
+        percentile.value = jsonResponse["percentile"];
+
         conversation.value.add(
           SpeechInfo(side: SpeechSide.bot, text: "Your Prediction Is Ready!"),
         );

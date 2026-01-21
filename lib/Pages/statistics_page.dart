@@ -19,7 +19,6 @@ double wasteBagEmissions = 0; // Q11 response
 double energyEfficientDevicesEmissions = 0; // Q16 response
 double cookingEmissions = 0; // Q18 response
 double otherEmissions = 0; // For unaccounted emissions
-String percentile = "";
 
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({super.key});
@@ -286,15 +285,19 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     style: GoogleFonts.getFont("Rubik", fontSize: 20),
                   ),
                   SizedBox(height: 5),
-                  Text(
-                    // Placeholder percentile calculation
-                    "${100 - (userEmissions / 1000 / 20 * 100).round()}th",
-                    style: GoogleFonts.getFont(
-                      "Montserrat",
-                      fontSize: 55,
-                      fontWeight: FontWeight.bold,
-                      textStyle: TextStyle(height: 1),
-                    ),
+                  ValueListenableBuilder(
+                    valueListenable: percentile,
+                    builder: (context, value, child) {
+                      return Text(
+                        (percentile.value != null) ? percentile.value! : "~",
+                        style: GoogleFonts.getFont(
+                          "Montserrat",
+                          fontSize: 55,
+                          fontWeight: FontWeight.bold,
+                          textStyle: TextStyle(height: 1),
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(height: 5),
                   Text(

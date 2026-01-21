@@ -5,7 +5,12 @@ import '../Widgets/Conversation/conversation_widget.dart';
 import '../Widgets/Conversation/speech_widget.dart';
 import '../Widgets/Conversation/user_Input_widget.dart';
 
-ValueNotifier<double?> emissions = ValueNotifier(null);
+ValueNotifier<double?> emissions = ValueNotifier(
+  null,
+); // Calculated and Returned by API
+ValueNotifier<String?> percentile = ValueNotifier(
+  null,
+); // Calculated and Returned by API
 
 ValueNotifier currentPage = ValueNotifier(0); // Changes based on current page
 ValueNotifier isScrolled = ValueNotifier(false); // Changes when user scrolls
@@ -80,9 +85,9 @@ final List<Question> questionList = [
   ),
 
   Question(
-    question: "Whats your monthly grocery bill?",
+    question: "Whats your monthly grocery bill? (\$)",
     questionType: UserInputOptions.NUMBER,
-    range: (0, 5000),
+    range: (0, 9999),
   ),
   Question(
     question: "How frequently do you travel by air?",
@@ -93,7 +98,7 @@ final List<Question> questionList = [
   Question(
     question: "Whats your monthly travel distances? (km)",
     questionType: UserInputOptions.NUMBER,
-    range: (0, 10000),
+    range: (0, 9999),
   ),
 
   Question(
