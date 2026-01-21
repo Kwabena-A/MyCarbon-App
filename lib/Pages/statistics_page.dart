@@ -19,6 +19,7 @@ double wasteBagEmissions = 0; // Q11 response
 double energyEfficientDevicesEmissions = 0; // Q16 response
 double cookingEmissions = 0; // Q18 response
 double otherEmissions = 0; // For unaccounted emissions
+String userPercentile = "~";
 
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({super.key});
@@ -40,6 +41,13 @@ class _StatisticsPageState extends State<StatisticsPage> {
           ? emissions.value!
           : userEmissions;
       emissionsCalc();
+    });
+
+    percentile.addListener(() {
+
+      userPercentile = (percentile.value != null)
+          ? percentile.value!
+          : userPercentile;
     });
 
     emissionsCalc();
@@ -403,7 +411,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   PieChartSectionData(
                     value: (vehicleTypeEmissions / userEmissions * 100),
                     color: Colors.pinkAccent,
-                    title: 'Vehicle Type',
+                    title: 'Vehicle\nType',
                     radius: 150,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
@@ -424,7 +432,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
-                    titlePositionPercentageOffset: 1.1,
+                    titlePositionPercentageOffset: 1.15,
                   ),
 
                   // Air Travel Section
@@ -473,7 +481,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   // Cooking Device Section
                   PieChartSectionData(
                     value: (cookingEmissions / userEmissions * 100),
-                    color: Colors.blueGrey,
+                    color: Colors.amber,
                     title: 'Cooking',
                     radius: 150,
                     titleStyle: GoogleFonts.getFont(
@@ -497,7 +505,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
-                    titlePositionPercentageOffset: 1.15,
+                    titlePositionPercentageOffset: 1.2,
                   ),
                 ],
                 sectionsSpace:
