@@ -112,8 +112,8 @@ class Question {
       if (response.statusCode == 200) {
         // Successfully Calculated
         var jsonResponse =
-            convert.jsonDecode(response.body)
-                as Map<String, dynamic>; // Convert to map
+        convert.jsonDecode(response.body)
+        as Map<String, dynamic>; // Convert to map
         emissions.value = double.parse(
           jsonResponse["prediction"].substring(
             1,
@@ -188,7 +188,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable:
-          currentQuestion, // Value listenable container index of current question
+      currentQuestion, // Value listenable container index of current question
       builder: (context, value, child) {
         Question currentQuestionObject = questionList.elementAt(
           currentQuestion.value,

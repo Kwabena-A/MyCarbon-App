@@ -21,8 +21,6 @@ double cookingEmissions = 0; // Q18 response
 double otherEmissions = 0; // For unaccounted emissions
 String userPercentile = "~";
 
-
-
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({super.key});
   @override
@@ -45,7 +43,6 @@ class _StatisticsPageState extends State<StatisticsPage> {
     });
 
     percentile.addListener(() {
-
       userPercentile = (percentile.value != null)
           ? percentile.value!
           : userPercentile;
@@ -277,18 +274,17 @@ class _StatisticsPageState extends State<StatisticsPage> {
       padding: EdgeInsets.only(top: 120, bottom: 150, left: 20, right: 20),
       child: Column(
         children: [
-          FittedBox(
-            child: Container(
-              // Top card showing percentile information
-              height: 175,
-              width: topCardWidth,
-              margin: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20), // rounded-edges
-                color: Colors.white,
-              ),
+          Container(
+            // Top card showing percentile information
+            width: topCardWidth,
+            margin: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
+            alignment: Alignment.topLeft,
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20), // rounded-edges
+              color: Colors.white,
+            ),
+            child: FittedBox(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
