@@ -21,6 +21,8 @@ double cookingEmissions = 0; // Q18 response
 double otherEmissions = 0; // For unaccounted emissions
 String userPercentile = "~";
 
+
+
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({super.key});
   @override
@@ -40,7 +42,6 @@ class _StatisticsPageState extends State<StatisticsPage> {
       userEmissions = (emissions.value != null)
           ? emissions.value!
           : userEmissions;
-      emissionsCalc();
     });
 
     percentile.addListener(() {
@@ -268,6 +269,9 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
+    double pieRadius = MediaQuery.of(context).size.width * 0.35;
+    double barRadius = MediaQuery.of(context).size.width * 0.65;
+    double topCardWidth = MediaQuery.of(context).size.width * 0.9;
     return SingleChildScrollView(
       controller: scrollController,
       padding: EdgeInsets.only(top: 120, bottom: 150, left: 20, right: 20),
@@ -277,7 +281,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
             child: Container(
               // Top card showing percentile information
               height: 175,
-              width: 400,
+              width: topCardWidth,
               margin: EdgeInsets.only(top: 0, left: 20, right: 20, bottom: 20),
               alignment: Alignment.topLeft,
               padding: EdgeInsets.all(20),
@@ -354,7 +358,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     color: Colors.green,
                     title: 'Body\nType',
                     radius:
-                        150, // Used to adjust size (make sure all sections have the same radius)
+                        pieRadius, // Used to adjust size (make sure all sections have the same radius)
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       fontSize: 10,
@@ -369,7 +373,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     value: (dietEmissions / userEmissions * 100),
                     color: Colors.blue,
                     title: 'Diet',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       fontSize: 12,
@@ -383,7 +387,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     value: (heatingEmissions / userEmissions * 100),
                     color: Colors.deepOrange,
                     title: 'Heating',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       fontSize: 10,
@@ -397,7 +401,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     value: (transportModeEmissions / userEmissions * 100),
                     color: Colors.purple,
                     title: 'Trans\nport',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       color: Colors.black,
@@ -412,7 +416,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     value: (vehicleTypeEmissions / userEmissions * 100),
                     color: Colors.pinkAccent,
                     title: 'Vehicle\nType',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       fontSize: 10,
@@ -426,7 +430,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     value: (socialEmissions / userEmissions * 100),
                     color: Colors.red,
                     title: 'Social',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       fontSize: 10,
@@ -440,7 +444,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     value: (airTravelEmissions / userEmissions * 100),
                     color: Colors.cyan,
                     title: 'Air\nTravel',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       fontSize: 10,
@@ -454,7 +458,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     value: (wasteBagEmissions / userEmissions * 100),
                     color: Colors.indigoAccent,
                     title: 'Waste',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       fontSize: 10,
@@ -469,7 +473,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                         (energyEfficientDevicesEmissions / userEmissions * 100),
                     color: Colors.lime,
                     title: 'Devices',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       fontSize: 10,
@@ -483,7 +487,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     value: (cookingEmissions / userEmissions * 100),
                     color: Colors.amber,
                     title: 'Cooking',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       color: Colors.black,
@@ -498,7 +502,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                     value: (otherEmissions / userEmissions * 100),
                     color: Colors.blueGrey,
                     title: 'Other',
-                    radius: 150,
+                    radius: pieRadius,
                     titleStyle: GoogleFonts.getFont(
                       "Rubik",
                       color: Colors.black,
@@ -524,7 +528,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
               "Your CO2 Emissions, Compared",
               style: GoogleFonts.getFont(
                 "Rubik",
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -541,10 +545,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
                 // Y axis label
                 SizedBox(
                   height: 625,
-                  width: 100,
+                  width: 80,
                   child: Padding(
                     // Aligning label to center of chart
-                    padding: EdgeInsets.only(top: 90),
+                    padding: EdgeInsets.only(top: 100),
                     child: Center(
                       // Rotating label 90 degrees counter-clockwise
                       child: Transform.rotate(
@@ -572,7 +576,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                 // Bar Chart
                 Container(
                   height: 625,
-                  width: 300,
+                  width: barRadius,
                   child: BarChart(
                     BarChartData(
                       // Evenly spacing ear bar
